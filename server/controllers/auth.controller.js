@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 import User from "../models/User.model.js";
 
 export async function registerUser(req, res) {
@@ -13,6 +15,7 @@ export async function registerUser(req, res) {
 				success: false,
 				message: "User already exists !",
 			});
+			return; // Prevents double response
 		}
 
 		// else hash password and create user;
