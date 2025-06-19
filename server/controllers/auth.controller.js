@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import passport from "passport";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,7 +14,7 @@ export async function registerUser(req, res) {
 		if (existingUser) {
 			res.status(400).json({
 				success: false,
-				message: "User already exists !",
+				message: "An account with that email already exists",
 			});
 			return; // Prevents double response
 		}
@@ -43,14 +44,14 @@ export async function registerUser(req, res) {
 
 		const userData = {
 			id: newUser._id,
-			name: newUser.name,
+			username: newUser.username,
 			email: newUser.email,
 			role: newUser.role,
 		};
 
 		res.status(201).json({
 			success: true,
-			message: "Registered successfully",
+			message: "RAccount created successfully.",
 			data: {
 				user: userData,
 				token,
@@ -60,7 +61,41 @@ export async function registerUser(req, res) {
 		console.error("Registration error", error);
 		res.status(500).json({
 			success: false,
-			message: "Registration failed !",
+			message: "Something went wrong. Please try again later.",
 		});
 	}
 }
+
+// login user logic;
+export function loginUser(req, res, next) {
+	passport.authenticate("local", { session: false }, (err, user, info) => {
+		if (err) return next(err);
+		
+		if (!user) {
+			return res.status(401).json({
+				success: false,
+				message: "Invalid email or password",
+			})
+		}
+
+		// generate jwt token if there is a user;
+		const token = jwt.sign({
+			id: user._id,
+			email: user.email,
+			role: user.role,
+		}, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+		res.status(200).json({
+			success: true,
+			message: "Logged in successfully",
+			token,
+			data: {
+				user: {
+					id: user._id,
+					username: user.username,
+					email: user.email,
+				},
+			},
+		});
+	})(req, res, next)
+};
