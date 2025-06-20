@@ -51,7 +51,7 @@ export async function registerUser(req, res) {
 
 		res.status(201).json({
 			success: true,
-			message: "RAccount created successfully.",
+			message: "Account created successfully.",
 			data: {
 				user: userData,
 				token,

@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import passport, { configurePassport } from "./configs/passport.js";
 import authRoutes from "./routes/auth.route.js";
+import protectedRoutes from "./routes/protected.route.js";
 
 // connect to database;
 mongoose
@@ -23,6 +24,8 @@ app.use(cors());
 app.use(passport.initialize());
 // routes;
 app.use("/api/v1/auth", authRoutes);
+
+
 
 // listen to app;
 const PORT = process.env.PORT;
