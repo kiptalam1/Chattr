@@ -1,10 +1,32 @@
-@import "./styles/variables.css";
 
-body {
-	box-sizing: border-box;
-	background: var(--color-bg);
-	color: var(--color-text);
-	font-family: var(--font-main);
-	margin: 0;
-	padding: 0;
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Nunito:wght@400;600;700&family=Poppins:wght@400;600&family=Inter:wght@400;600&display=swap');
+
+:root {
+  --color-bg: #f4f1f8;
+  --color-bg-alt: #ffffff;
+  --color-text: #1a1a1a;
+  --color-primary: #8b5cf6;
+  --color-accent: #38bdf8;
+  --color-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-message-own: #e0d4fa;
+  --color-message-other: #d1f1fe;
+
+  --font-body: 'Nunito', 'Inter', sans-serif;
+  --font-heading: 'Manrope', 'Poppins', sans-serif;
 }
+
+[data-theme="dark"] {
+  --color-bg: #12111a;
+  --color-bg-alt: #1e1e2e;
+  --color-text: #f3f4f6;
+  --color-primary: #a78bfa;
+  --color-accent: #7dd3fc;
+  --color-muted: #6b7280;
+  --color-border: #2a2a3c;
+  --color-message-own: #3b2a57;
+  --color-message-other: #1f2e3d;
+}
+
+
