@@ -14,14 +14,14 @@ const LandingPage = () => {
 				<Button
 					className="w-full sm:w-32 "
 					variant="ghost"
-					onClick={() => navigate("/login")}>
+					onClick={() => navigate("/auth/login")}>
 					Login
 				</Button>
 
 				<Button
 					className="w-full sm:w-32 "
 					variant="primary"
-					onClick={() => navigate("/register")}>
+					onClick={() => navigate("/auth/register")}>
 					Register
 				</Button>
 			</div>
