@@ -1,6 +1,6 @@
 
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Nunito:wght@400;600;700&family=Poppins:wght@400;600&family=Inter:wght@400;600&display=swap');
+@import "tailwindcss";
 
 :root {
   --color-bg: #f4f1f8;
@@ -30,3 +30,6 @@
 }
 
 
+body {
+  font-family: var(--font-body);
+}
