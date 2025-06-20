@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Nunito:wght@400;600;700&family=Poppins:wght@400;600&family=Inter:wght@400;600&display=swap');
 @import "tailwindcss";
 
+
 :root {
   --color-bg: #f4f1f8;
   --color-bg-alt: #ffffff;
@@ -30,6 +31,28 @@
 }
 
 
+/* Base styles */
 body {
   font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Animations (custom utility example) */
+@utility fade-in {
+  & {
+    animation: fadeIn 0.4s ease-out both;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
