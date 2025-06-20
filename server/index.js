@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import passport, { configurePassport } from "./configs/passport.js";
 import authRoutes from "./routes/auth.route.js";
-import protectedRoutes from "./routes/protected.route.js";
+import userRoutes from "./routes/user.route.js";
 
 // connect to database;
 mongoose
@@ -24,7 +24,7 @@ app.use(cors());
 app.use(passport.initialize());
 // routes;
 app.use("/api/v1/auth", authRoutes);
-
+app.use("/api/v1/users", userRoutes);
 
 
 // listen to app;
