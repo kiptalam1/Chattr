@@ -1,4 +1,4 @@
-// AuthContext to manage JWT & user state;
+// AuthContext to manage JWT & user state
 import { useContext, createContext, useState } from "react";
 
 const AuthContext = createContext();
@@ -6,7 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(() => localStorage.getItem("token"));
 	const [user, setUser] = useState(() =>
-		JSON.parse(localStorage.getItem("token"))
+		JSON.parse(localStorage.getItem("user"))
 	);
 
 	const login = ({ token, user }) => {
@@ -24,13 +24,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	return (
-		<AuthContext.Provider
-			value={{
-				token,
-				user,
-				login,
-				logout,
-			}}>
+		<AuthContext.Provider value={{ token, user, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
