@@ -1,6 +1,6 @@
 // AuthContext to manage JWT & user state
 import { useContext, createContext, useState, useEffect } from "react";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 		}
 	}, []);
 
-	const login = ({ token }) => {
+	const login = (token) => {
 		const decoded = jwtDecode(token);
 		setToken(token);
 		setUser(decoded);

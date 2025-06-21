@@ -33,9 +33,8 @@ const LoginPage = () => {
 			if (res?.data?.success) {
 				setSuccess(true);
 				setMessage(res.data.message);
-
 				// Optional: if using useAuth()
-				login(res.data.data); // save token/user globally
+				login(res.data.token); // save token/user globally
 
 				setTimeout(() => {
 					setMessage("");
