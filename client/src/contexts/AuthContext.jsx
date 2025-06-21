@@ -1,26 +1,44 @@
 // AuthContext to manage JWT & user state
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
+import jwtDecode from "jwt-decode";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-	const [token, setToken] = useState(() => localStorage.getItem("token"));
-	const [user, setUser] = useState(() =>
-		JSON.parse(localStorage.getItem("user"))
-	);
+	const [token, setToken] = useState(null);
+	const [user, setUser] = useState(null);
 
-	const login = ({ token, user }) => {
+	useEffect(() => {
+		const storedToken = localStorage.getItem("token");
+		if (storedToken) {
+			try {
+				const decoded = jwtDecode(storedToken);
+				if (decoded.exp * 1000 >= Date.now()) {
+					setToken(storedToken);
+					setUser(decoded); // decoded = { id, email, role, iat, exp }
+				} else {
+					localStorage.removeItem("token");
+				}
+			} catch (error) {
+				if (import.meta.env.MODE === "development") {
+					console.error("Token error", error);
+				}
+				localStorage.removeItem("token");
+			}
+		}
+	}, []);
+
+	const login = ({ token }) => {
+		const decoded = jwtDecode(token);
 		setToken(token);
-		setUser(user);
+		setUser(decoded);
 		localStorage.setItem("token", token);
-		localStorage.setItem("user", JSON.stringify(user));
 	};
 
 	const logout = () => {
 		setToken(null);
 		setUser(null);
 		localStorage.removeItem("token");
-		localStorage.removeItem("user");
 	};
 
 	return (
