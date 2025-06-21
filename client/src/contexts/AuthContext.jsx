@@ -15,15 +15,21 @@ export const AuthProvider = ({ children }) => {
 		if (storedToken) {
 			try {
 				const decoded = jwtDecode(storedToken);
-				if (decoded.exp * 1000 >= Date.now()) {
+				const isExpired = decoded.exp * 1000 < Date.now();
+
+				if (!isExpired) {
 					setToken(storedToken);
-					setUser(decoded); // decoded = { id, email, role, iat, exp }
+					setUser(decoded);
+
+					// 🔁 reconnect socket after reload
+					socket.auth = { token: storedToken };
+					socket.connect();
 				} else {
 					localStorage.removeItem("token");
 				}
 			} catch (error) {
 				if (import.meta.env.MODE === "development") {
-					console.error("Token error", error);
+					console.error("Invalid token", error);
 				}
 				localStorage.removeItem("token");
 			}
@@ -36,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 		setUser(decoded);
 		localStorage.setItem("token", token);
 
-		// connect to socket after login;
+		// 🟢 Connect socket after login
 		socket.auth = { token };
 		socket.connect();
 	};
@@ -45,6 +51,9 @@ export const AuthProvider = ({ children }) => {
 		setToken(null);
 		setUser(null);
 		localStorage.removeItem("token");
+
+		// 🔴 Disconnect socket on logout
+		socket.disconnect();
 	};
 
 	return (
