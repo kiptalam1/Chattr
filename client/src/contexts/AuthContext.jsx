@@ -1,6 +1,8 @@
 // AuthContext to manage JWT & user state
 import { useContext, createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import socket from "../utils/socket.js";
+
 
 const AuthContext = createContext();
 
@@ -33,6 +35,10 @@ export const AuthProvider = ({ children }) => {
 		setToken(token);
 		setUser(decoded);
 		localStorage.setItem("token", token);
+
+		// connect to socket after login;
+		socket.auth = { token };
+		socket.connect();
 	};
 
 	const logout = () => {
