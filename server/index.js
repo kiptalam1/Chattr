@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
 import dotenv from "dotenv";
 dotenv.config();
 import passport, { configurePassport } from "./configs/passport.js";
@@ -31,7 +33,29 @@ app.use(passport.initialize());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 
+// http serer + socket.io;
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+	cors: {
+		origin: ["http://localhost:5173", "https://your-vercel-app.vercel.app"],
+		methods: ["GET", "POST"],
+		credentials: true,
+	},
+});
+
+io.on("connection", (socket) => {
+	console.log(`Socket connected: ${socket.id}`);
+
+	socket.on("disconnect", () => {
+		console.log("Socket disconnected:", socket.id);
+	});
+});
 
 // listen to app;
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`It's running my guy`));
+const PORT = process.env.PORT || 5000;
+
+httpServer.listen(PORT, () => {
+	console.log(`Server + Socket.IO running on port ${PORT}`);
+});
+// app.listen(PORT, () => console.log(`It's running my guy`));
+export { io };
