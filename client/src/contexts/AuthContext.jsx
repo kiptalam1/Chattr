@@ -44,8 +44,6 @@ export const AuthProvider = ({ children }) => {
 		setUser(decoded);
 		localStorage.setItem("token", token);
 
-		console.log("Connecting socket with token:", token);
-
 		// 🟢 Connect socket after login
 		socket.auth = { token };
 		socket.connect();
