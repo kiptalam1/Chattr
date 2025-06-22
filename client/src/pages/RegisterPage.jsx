@@ -38,7 +38,7 @@ const RegisterPage = () => {
 				password: form.password,
 			};
 
-			const res = await API.post("/auth/register", userData);
+			const res = await API.post("/api/v1/auth/register", userData);
 
 			if (res?.data?.success) {
 				setSuccess(true);

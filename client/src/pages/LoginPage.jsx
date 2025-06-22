@@ -28,7 +28,7 @@ const LoginPage = () => {
 		try {
 			const { email, password } = form;
 
-			const res = await API.post("/auth/login", { email, password });
+			const res = await API.post("/api/v1/auth/login", { email, password });
 
 			if (res?.data?.success) {
 				setSuccess(true);
@@ -38,7 +38,7 @@ const LoginPage = () => {
 
 				setTimeout(() => {
 					setMessage("");
-					navigate("/dashboard");
+					navigate("/chat");
 				}, 1500);
 			} else {
 				setSuccess(false);
