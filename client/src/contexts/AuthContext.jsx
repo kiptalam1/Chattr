@@ -9,6 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(null);
 	const [user, setUser] = useState(null);
+	const [isAuthReady, setIsAuthReady] = useState(false);
 
 	useEffect(() => {
 		const storedToken = localStorage.getItem("token");
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
 				localStorage.removeItem("token");
 			}
 		}
+		setIsAuthReady(true); // ✅ mark auth as checked
 	}, []);
 
 	const login = (token) => {
@@ -41,6 +43,8 @@ export const AuthProvider = ({ children }) => {
 		setToken(token);
 		setUser(decoded);
 		localStorage.setItem("token", token);
+
+		console.log("Connecting socket with token:", token);
 
 		// 🟢 Connect socket after login
 		socket.auth = { token };
@@ -57,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ token, user, login, logout }}>
+		<AuthContext.Provider value={{ token, user, login, logout, isAuthReady }}>
 			{children}
 		</AuthContext.Provider>
 	);
