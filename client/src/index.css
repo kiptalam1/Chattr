@@ -13,7 +13,8 @@
   --color-border: #e5e7eb;
   --color-message-own: #e0d4fa;
   --color-message-other: #d1f1fe;
-
+  --color-message-text-own: #2b134b;
+  --color-message-text-other: #082f49;
   --font-body: 'Nunito', 'Inter', sans-serif;
   --font-heading: 'Manrope', 'Poppins', sans-serif;
 }
@@ -28,6 +29,8 @@
   --color-border: #2a2a3c;
   --color-message-own: #3b2a57;
   --color-message-other: #1f2e3d;
+  --color-message-text-own: #f1e6ff;
+  --color-message-text-other: #d2f3ff;
 }
 
 

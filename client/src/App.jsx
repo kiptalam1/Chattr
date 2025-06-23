@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
+import PrivateRoute from "./components/PrivateRoute";
+import GlobalChat from "./pages/GlobalChat";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
@@ -11,6 +13,14 @@ function App() {
 				<Route path="/" element={<LandingPage />} />
 				<Route path="/auth/login" element={<LoginPage />} />
 				<Route path="/auth/register" element={<RegisterPage />} />
+				<Route
+					path="/chat"
+					element={
+						<PrivateRoute>
+							<GlobalChat />
+						</PrivateRoute>
+					}
+				/>
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>
