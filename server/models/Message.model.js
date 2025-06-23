@@ -21,7 +21,9 @@ const MessageSchema = new mongoose.Schema(
 				emoji: String,
 			},
 		],
-		readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+		readBy: [
+			{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
+		],
 	},
 	{ timestamps: true }
 );
