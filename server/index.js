@@ -47,6 +47,9 @@ const io = new Server(httpServer, {
 	},
 });
 
+// User → socket.id map
+const onlineUsers = new Map();
+
 // 🔐 middleware to verify token
 io.use((socket, next) => {
 	const token = socket.handshake.auth?.token;
@@ -64,7 +67,11 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
+	const userId = socket.user.id;
+
 	console.log("Socket connected:", socket.id);
+	onlineUsers.set(userId, socket.id);
+	socket.join(userId); // Join room named after userId for DMs
 
 	// ✏️ Typing Indicator
 	socket.on("typing", ({ roomId, user }) => {
@@ -109,6 +116,25 @@ io.on("connection", (socket) => {
 			messageId,
 			reactions: updated.reactions,
 		});
+	});
+
+	// 🔒 Private Messages;
+	socket.on("send_private_message", async ({ to, content }) => {
+		if (!to || !content) return;
+		const msg = await Message.create({
+			sender: socket.user.id,
+			recipient: to,
+			content,
+			readBy: [socket.user.id],
+		});
+		const fullMsg = await msg.populate("sender", "username");
+		io.to(to).emit("receive_private_message", fullMsg);
+		io.to(socket.user.id).emit("receive_private_message", fullMsg); // send back to sender for confirmation & better UX;
+	});
+
+	// 🟣 DMs - Typing
+	socket.on("typing_dm", ({ to }) => {
+		io.to(to).emit("user_typing_dm", { from: userId });
 	});
 
 	socket.on("disconnect", () => {
