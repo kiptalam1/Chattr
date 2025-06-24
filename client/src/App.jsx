@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./components/PrivateRoute";
 import GlobalChat from "./pages/GlobalChat";
 import NotFoundPage from "./pages/NotFoundPage";
+import DirectMessage from "./pages/DirectMessage";
 
 function App() {
 	return (
@@ -18,6 +19,14 @@ function App() {
 					element={
 						<PrivateRoute>
 							<GlobalChat />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/dm/:id"
+					element={
+						<PrivateRoute>
+							<DirectMessage />
 						</PrivateRoute>
 					}
 				/>
