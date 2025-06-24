@@ -152,3 +152,7 @@
     🧪 Ephemeral threads (optional enhancement)
 
     🛡️ Invisible mode / ghost reads (optional enhancement)
+
+
+DiceBear for avatars:
+*https://api.dicebear.com/7.x/adventurer/svg?seed=JohnDoe&radius=50&backgroundColor=ffd5ec*
