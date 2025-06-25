@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import User from "../models/User.model.js";
 
+
+const bgColors = ["ffd5ec", "d1f4ff", "ffe2b0", "e0e4ff", "dcffd1", "fff2d8"];
 export async function registerUser(req, res) {
 	try {
 		const { username, email, password } = req.body;
@@ -22,11 +24,14 @@ export async function registerUser(req, res) {
 		// else hash password and create user;
 		const salt = 10;
 		const hashedPassword = await bcrypt.hash(password, salt);
+		const avatarBgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
 
 		const newUser = new User({
 			username,
 			email,
 			password: hashedPassword,
+			avatarSeed: username,
+			avatarBgColor,
 		});
 
 		await newUser.save();

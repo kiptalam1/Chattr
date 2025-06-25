@@ -3,7 +3,9 @@ import User from "../models/User.model.js";
 
 export async function getAllUsers(req, res) {
 	try {
-		const users = await User.find({}, "_id username avatar")
+		const users = await User.find().select(
+			"_id username avatarUrl avatarSeed avatarBgColor"
+		);
 		res.status(200).json({
 			success: true,
 			data:  users ,

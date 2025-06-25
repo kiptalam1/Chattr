@@ -22,9 +22,18 @@ const UserSchema = new mongoose.Schema(
 			minlength: 6,
 			select: false,
 		},
-		avatar: {
+		avatarSeed: {
 			type: String,
-			default: "",
+			default: function () {
+				return this.username; // Use username as seed by default
+			},
+		},
+		avatarBgColor: {
+			type: String,
+			required: true, // Must be set manually in controller
+		},
+		avatarUrl: {
+			type: String, // For custom uploads later
 		},
 		role: {
 			type: String,
