@@ -3,9 +3,11 @@ import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./components/PrivateRoute";
+import Layout from "./components/Layout";
 import GlobalChat from "./pages/GlobalChat";
 import NotFoundPage from "./pages/NotFoundPage";
 import DirectMessage from "./pages/DirectMessage";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
 	return (
@@ -18,7 +20,9 @@ function App() {
 					path="/chat"
 					element={
 						<PrivateRoute>
-							<GlobalChat />
+							<Layout>
+								<GlobalChat />
+							</Layout>
 						</PrivateRoute>
 					}
 				/>
@@ -27,6 +31,16 @@ function App() {
 					element={
 						<PrivateRoute>
 							<DirectMessage />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/users"
+					element={
+						<PrivateRoute>
+							<Layout>
+								<UsersPage />
+							</Layout>
 						</PrivateRoute>
 					}
 				/>
