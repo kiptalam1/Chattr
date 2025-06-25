@@ -30,7 +30,9 @@ function App() {
 					path="/dm/:id"
 					element={
 						<PrivateRoute>
-							<DirectMessage />
+							<Layout>
+								<DirectMessage />
+							</Layout>
 						</PrivateRoute>
 					}
 				/>
