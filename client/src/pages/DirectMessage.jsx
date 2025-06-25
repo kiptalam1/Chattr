@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLocation, useParams } from "react-router-dom";
-
+import { HiArrowNarrowLeft } from "react-icons/hi";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import Button from "../components/Button";
@@ -16,7 +18,7 @@ const DirectMessage = () => {
 	const { user } = useAuth();
 	const { id } = useParams();
 	const { state } = useLocation();
-
+	const navigate = useNavigate();
 	const [recipient, setRecipient] = useState(state?.recipient || null);
 	const [messages, setMessages] = useState([]);
 	const [message, setMessage] = useState("");
@@ -105,9 +107,29 @@ const DirectMessage = () => {
 
 	return (
 		<div className="flex flex-col h-screen px-4 py-4 sm:px-8 md:px-16 lg:px-32 xl:px-64 bg-[var(--color-bg)] text-[var(--color-text)] pb-[70px]">
-			<h2 className="text-xl font-bold text-[var(--color-primary)] mb-2">
-				Chat with {recipient.username}
-			</h2>
+			<div className="flex items-center justify-between px-2 py-2">
+				<HiArrowNarrowLeft
+					className="text-[var(--color-primary)] cursor-pointer text-2xl"
+					onClick={() => navigate("/users")}
+				/>
+
+				<div className="flex items-center gap-2 mx-auto">
+					<img
+						src={
+							recipient.avatarUrl ||
+							`https://api.dicebear.com/7.x/adventurer/svg?seed=${recipient.avatarSeed}&radius=50&backgroundColor=${recipient.avatarBgColor}&backgroundType=gradientLinear`
+						}
+						alt={recipient.username}
+						className="w-10 h-10 rounded-full"
+					/>
+					<h2 className="text-xl font-light text-[var(--color-primary)] mb-0">
+						chat with <span className="font-bold">{recipient.username}</span>
+					</h2>
+				</div>
+
+				{/* Placeholder to balance spacing */}
+				<div className="w-6" />
+			</div>
 
 			<div className="flex-1 overflow-y-auto space-y-3">
 				{messages.map((msg, i) => {
@@ -132,7 +154,7 @@ const DirectMessage = () => {
 										? "ml-auto bg-[var(--color-message-own)]"
 										: "mr-auto bg-[var(--color-message-other)]"
 								}`}>
-								<div className="text-sm">{msg.content}</div>
+								<div className="text-base">{msg.content}</div>
 								<div className="flex justify-end mt-1 text-[10px] text-[var(--color-muted)]">
 									{dayjs(msg.createdAt).format("h:mm A")}
 								</div>
@@ -166,9 +188,9 @@ const DirectMessage = () => {
 					onChange={(e) => setMessage(e.target.value)}
 					onInput={handleTyping}
 					placeholder="Type..."
-					className="flex-1 px-4 py-2 rounded-2xl border bg-transparent"
+					className="flex-1 px-4 py-2 rounded-2xl border-[var(--color-muted)] shadow-xl/20 bg-transparent"
 				/>
-				<Button type="submit" variant="secondary">
+				<Button type="submit" variant="secondary" className="rounded-3xl">
 					Send
 				</Button>
 			</form>
