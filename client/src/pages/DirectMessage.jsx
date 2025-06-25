@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import Button from "../components/Button";
+import Spinner from "../components/Spinner";
 import { useAuth } from "../contexts/AuthContext";
 import socket from "../utils/socket.js";
 import API from "../utils/api.js";
@@ -9,45 +12,52 @@ import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
 dayjs.extend(calendar);
 
-const DirectMessage = ({ recipient }) => {
+const DirectMessage = () => {
+	const { user } = useAuth();
+	const { id } = useParams();
+	const { state } = useLocation();
+
+	const [recipient, setRecipient] = useState(state?.recipient || null);
 	const [messages, setMessages] = useState([]);
 	const [message, setMessage] = useState("");
 	const [typing, setTyping] = useState(false);
 	const [showPicker, setShowPicker] = useState(false);
 	const messagesEndRef = useRef(null);
-	const { user } = useAuth();
 
-	// Fetch previous messages when component mounts;
+	// Fetch recipient details if not passed from route
 	useEffect(() => {
-		API.get(`/api/v1/messages/private/${recipient}`)
-			.then((res) => setMessages(res.data.data))
-			.catch(
-				(error) => {
-					if (import.meta.env.MODE === "development") {
-						console.error(
-							"Error fetching messages:",
-							error.response?.data?.message || error.message
-						);
-					}
-				},
-				[recipient]
-			);
-	});
+		if (!recipient) {
+			API.get(`/api/v1/users/${id}`)
+				.then((res) => setRecipient(res.data.data))
+				.catch((err) =>
+					console.error("Failed to fetch recipient:", err.message)
+				);
+		}
+	}, [id, recipient]);
 
-	// socket listeners for new messages and typing notifications;
+	// Fetch private messages
+	useEffect(() => {
+		if (!recipient) return;
+		API.get(`/api/v1/messages/private/${recipient._id}`)
+			.then((res) => setMessages(res.data.data))
+			.catch((err) => console.error("Error fetching messages:", err.message));
+	}, [recipient]);
+
+	// Listen for incoming private messages & typing indicators
 	useEffect(() => {
 		socket.on("receive_private_message", (msg) => {
-			if (msg.sender._id === recipient._id || msg.recipient === recipient._id) {
+			if (
+				msg.sender._id === recipient?._id ||
+				msg.recipient === recipient?._id
+			) {
 				setMessages((prev) => [...prev, msg]);
 			}
 		});
 
 		socket.on("user_typing_dm", ({ from }) => {
-			if (from === recipient._id) {
+			if (from === recipient?._id) {
 				setTyping(true);
-				setTimeout(() => {
-					setTyping(false);
-				}, 2000);
+				setTimeout(() => setTyping(false), 2000);
 			}
 		});
 
@@ -57,12 +67,10 @@ const DirectMessage = ({ recipient }) => {
 		};
 	}, [recipient]);
 
-	// scroll to bottom when messages change;
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
 
-	// send message function;
 	const handleSendMessage = (e) => {
 		e.preventDefault();
 		if (!message.trim()) return;
@@ -91,8 +99,12 @@ const DirectMessage = ({ recipient }) => {
 			sameElse: "MMM D, YYYY",
 		});
 
+	if (!recipient) {
+		return <Spinner />;
+	}
+
 	return (
-		<div className="flex flex-col h-screen px-4 py-4 sm:px-8 md:px-16 lg:px-32 xl:px-64 bg-[var(--color-bg)] text-[var(--color-text)]">
+		<div className="flex flex-col h-screen px-4 py-4 sm:px-8 md:px-16 lg:px-32 xl:px-64 bg-[var(--color-bg)] text-[var(--color-text)] pb-[70px]">
 			<h2 className="text-xl font-bold text-[var(--color-primary)] mb-2">
 				Chat with {recipient.username}
 			</h2>
