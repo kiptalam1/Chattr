@@ -30,7 +30,7 @@ const UsersPage = () => {
 	};
 
 	return (
-		<div className="pb-[70px] scroll-smooth">
+		<div className="pb-[70px] scroll-smooth sm:px-8 md:px-16 lg:px-32 xl:px-64">
 			{users.map((u) => (
 				<div
 					onClick={() => handleUserClick(u)}

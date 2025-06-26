@@ -1,7 +1,9 @@
 import React from "react";
-import { CgProfile } from "react-icons/cg";
+import { PiUserCircleDuotone } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { PiUsersThreeBold } from "react-icons/pi";
+
+import { PiUsersThreeDuotone } from "react-icons/pi";
+import { PiChatCircleDotsLight } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
@@ -9,18 +11,48 @@ const NavBar = () => {
 		<nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--color-bg)] shadow-md p-4 flex justify-around border-t border-[var(--color-border)]">
 			<NavLink
 				to="/chat"
-				className="text-[var(--color-text)] hover:text-[var(--color-text-hover)] transition-colors">
+				className={({ isActive }) =>
+					`transition-colors w-6 h-6 ${
+						isActive
+							? "text-[var(--color-primary)]"
+							: "text-[var(--color-text)] hover:text-[var(--color-muted)]"
+					}`
+				}>
 				<IoChatbubblesOutline className="w-6 h-6" />
 			</NavLink>
+
 			<NavLink
 				to="/users"
-				className="text-[var(--color-text)] hover:text-[var(--color-text-hover)] transition-colors">
-				<PiUsersThreeBold className="w-6 h-6" />
+				className={({ isActive }) =>
+					`transition-colors w-6 h-6 ${
+						isActive
+							? "text-[var(--color-primary)]"
+							: "text-[var(--color-text)] hover:text-[var(--color-muted)]"
+					}`
+				}>
+				<PiUsersThreeDuotone className="w-6 h-6" />
+			</NavLink>
+			<NavLink
+				to="/dm/:id"
+				className={({ isActive }) =>
+					`transition-colors w-6 h-6 ${
+						isActive
+							? "text-[var(--color-primary)]"
+							: "text-[var(--color-text)] hover:text-[var(--color-muted)]"
+					}`
+				}>
+				<PiChatCircleDotsLight className="w-6 h-6" />
 			</NavLink>
 			<NavLink
 				to="/profile"
-				className="text-[var(--color-text)] hover:text-[var(--color-text-hover)] transition-colors">
-				<CgProfile className="w-6 h-6" />
+				className={({ isActive }) =>
+					`transition-colors w-6 h-6 ${
+						isActive
+							? "text-[var(--color-primary)]"
+							: "text-[var(--color-text)] hover:text-[var(--color-muted)]"
+					}`
+				}>
+				<PiUserCircleDuotone className="w-6 h-6" />
 			</NavLink>
 		</nav>
 	);
