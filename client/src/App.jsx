@@ -8,6 +8,7 @@ import GlobalChat from "./pages/GlobalChat";
 import NotFoundPage from "./pages/NotFoundPage";
 import DirectMessage from "./pages/DirectMessage";
 import UsersPage from "./pages/UsersPage";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
 	return (
@@ -42,6 +43,16 @@ function App() {
 						<PrivateRoute>
 							<Layout>
 								<UsersPage />
+							</Layout>
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/profile-me"
+					element={
+						<PrivateRoute>
+							<Layout>
+								<MyProfile />
 							</Layout>
 						</PrivateRoute>
 					}

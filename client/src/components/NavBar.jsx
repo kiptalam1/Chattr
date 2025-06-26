@@ -44,7 +44,7 @@ const NavBar = () => {
 				<PiChatCircleDotsLight className="w-6 h-6" />
 			</NavLink>
 			<NavLink
-				to="/profile"
+				to="/profile-me"
 				className={({ isActive }) =>
 					`transition-colors w-6 h-6 ${
 						isActive

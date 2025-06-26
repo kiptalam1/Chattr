@@ -22,7 +22,9 @@ export async function getAllUsers(req, res) {
 export async function getUserProfile(req, res) {
 	try {
 		// find the user from the database;
-		const user = await User.findById(req.user.id).select("username email role");
+		const user = await User.findById(req.user.id).select(
+			"username email avatarUrl avatarSeed avatarBgColor role"
+		);
 		if (!user) {
 			return res.status(404).json({
 				success: false,
@@ -33,7 +35,7 @@ export async function getUserProfile(req, res) {
 		// else if user is present;
 		res.status(200).json({
 			success: true,
-			data: { user },
+			data: user,
 		});
 	} catch (error) {
 		console.error("Profile fetch error", error);
