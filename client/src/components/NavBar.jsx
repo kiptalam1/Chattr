@@ -1,7 +1,8 @@
 import React from "react";
 import { PiUserCircleDuotone } from "react-icons/pi";
-import { IoChatbubblesOutline } from "react-icons/io5";
-
+// import { IoChatbubblesOutline } from "react-icons/io5";
+// import { PiGlobeDuotone } from "react-icons/pi";
+import { PiGlobeLight } from "react-icons/pi";
 import { PiUsersThreeDuotone } from "react-icons/pi";
 import { PiChatCircleDotsLight } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
@@ -18,7 +19,7 @@ const NavBar = () => {
 							: "text-[var(--color-text)] hover:text-[var(--color-muted)]"
 					}`
 				}>
-				<IoChatbubblesOutline className="w-6 h-6" />
+				<PiGlobeLight className="w-6 h-6" />
 			</NavLink>
 
 			<NavLink
