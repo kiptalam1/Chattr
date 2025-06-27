@@ -33,7 +33,7 @@ const NavBar = () => {
 				<PiUsersThreeDuotone className="w-6 h-6" />
 			</NavLink>
 			<NavLink
-				to="/dm/:id"
+				to="/messages"
 				className={({ isActive }) =>
 					`transition-colors w-6 h-6 ${
 						isActive
