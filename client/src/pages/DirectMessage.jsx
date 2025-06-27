@@ -110,7 +110,7 @@ const DirectMessage = () => {
 			<div className="flex items-center justify-between px-2 py-2">
 				<HiArrowNarrowLeft
 					className="text-[var(--color-primary)] cursor-pointer text-2xl"
-					onClick={() => navigate("/users")}
+					onClick={() => navigate(state?.from || "/users")}
 				/>
 
 				<div className="flex items-center gap-2 mx-auto">
