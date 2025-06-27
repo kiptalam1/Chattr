@@ -77,12 +77,13 @@ const GlobalChat = () => {
 
 	return (
 		<div className="flex flex-col h-screen px-4 py-4 sm:px-8 md:px-16 lg:px-32 xl:px-64 bg-[var(--color-bg)] text-[var(--color-text)] pb-[70px]">
-			<h2 className="text-2xl font-bold text-[var(--color-primary)] mb-2">
+			<h2 className="text-2xl font-bold text-[var(--color-primary)] mb-2 text-center">
 				Global Chat
 			</h2>
 
 			<div className="flex-1 overflow-y-auto space-y-3">
 				{messages.map((msg, i) => {
+					if (!msg.sender) return null;
 					const isOwn = msg.sender._id === user.id;
 
 					const prev = messages[i - 1];
