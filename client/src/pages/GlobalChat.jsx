@@ -65,7 +65,8 @@ const GlobalChat = () => {
 		socket.emit("message_reaction", { messageId: msgId, emoji });
 	};
 
-	const onTyping = () => socket.emit("typing", { roomId: "global", user });
+	const onTyping = () =>
+		socket.emit("typing", { roomId: "global", user: user.username });
 
 	const formatDay = (ts) =>
 		dayjs(ts).calendar(null, {
